@@ -4,7 +4,7 @@ su
 apt install sudo
 sudo apt update
 adduser your_user_name sudo
-
+sudo apt install vim	// You can skip this part if you use nano or else
 
 ====== Password ======
 sudo visudo -f /etc/sudoers.d/newrule
@@ -31,34 +31,34 @@ sudo apt install ufw
 sudo ufw enable
 sudo ufw allow 4242
 sudo ufw status
-	IMPORTANT: TO BE ABLE TO ESTABLISH AN SSH CONNECTION, WE NEED TO DO PORT FORWARDING THROUGH VM
-		-Right-click on the virtual server we installed in the VM interface, go to settings, then network section, and click on the port forwarding section under the advanced menu
-		-On the right side of the new window, there's a green new connection rule button, let's click it once. Then
-		-NAME: SSH
-		-PROTOCOL: TCP
-		-HOST IP: 127.0.0.1
-		-HOST PORT: 4242
-		-GUEST IP: 10.0.2.15
-		-GUEST PORT: 4242
-		You can edit it like this and click OK below.
-ss -tunlp	// cehck
+		IMPORTANT: TO BE ABLE TO ESTABLISH AN SSH CONNECTION, WE NEED TO DO PORT FORWARDING THROUGH VM
+			-Right-click on the virtual server we installed in the VM interface, go to settings, then network section, and click on the port forwarding section under the advanced menu
+			-On the right side of the new window, there's a green new connection rule button, let's click it once. Then
+			-NAME: SSH
+			-PROTOCOL: TCP
+			-HOST IP: 127.0.0.1
+			-HOST PORT: 4242
+			-GUEST IP: 10.0.2.15
+			-GUEST PORT: 4242
+			You can edit it like this and click OK below.
+ss -tunlp	// check
 
 
 ====== Login =======
 sudo vim /etc/login.defs
-	PASS_MAX_DAYS   99999 --> PASS_MAX_DAYS   30
-	PASS_MIN_DAYS   0 --> PASS_MIN_DAYS   2
-	PASS_WARN_AGE   7
+		PASS_MAX_DAYS   99999 --> PASS_MAX_DAYS   30
+		PASS_MIN_DAYS   0 --> PASS_MIN_DAYS   2
+		PASS_WARN_AGE   7
 sudo apt install libpam-pwquality
-sudo nano /etc/pam.d/common-password
-	retry=3
-	minlen=10                   // Minimum length 10
-	ucredit=-1 dcredit=-1       // Must contain at least one uppercase and one numeric character
-	maxrepeat=3                 // Maximum 3 consecutive characters can be used
-	reject_username             // Must not contain the username
-	difok=7                     // Requirement of 7 different characters not contained in the old password
-	enforce_for_root            // We made the rules valid for root as well
-	password        requisite                       pam_pwquality.so retry=3 minlen=10 ucredit=-1 dcredit=-1 maxrepeat=3 reject_username difok=7 enforce_for_root
+sudo vim /etc/pam.d/common-password
+		retry=3
+		minlen=10                   // Minimum length 10
+		ucredit=-1 dcredit=-1       // Must contain at least one uppercase and one numeric character
+		maxrepeat=3                 // Maximum 3 consecutive characters can be used
+		reject_username             // Must not contain the username
+		difok=7                     // Requirement of 7 different characters not contained in the old password
+		enforce_for_root            // We made the rules valid for root as well
+		password        requisite                       pam_pwquality.so retry=3 minlen=10 ucredit=-1 dcredit=-1 maxrepeat=3 reject_username difok=7 enforce_for_root
 
 	---- Test ----
 	sudo addgroup user42			--> We created a new group named "user42".
@@ -68,7 +68,7 @@ sudo nano /etc/pam.d/common-password
 
 ====== Info =======
 sudo crontab -u root -e
-	*/10 * * * * sh /path/to/script		// I use the path like this 	*/10 * * * * sh /usr/bin/bashscript/
+		*/10 * * * * sh /usr/bin/bashscript/
 sudo vim /usr/bin/bashscript/monitoring.sh
-	# use the code in /born2beroot/monitoring.sh
+		# use the code in /born2beroot/monitoring.sh
 	
