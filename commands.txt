@@ -1,77 +1,126 @@
-====== Basics =======
-lsblk
-su
-apt install sudo
-sudo apt update
-adduser your_user_name sudo
-sudo apt install vim		// You can skip this part if you use nano or else
+# Basic System Commands
+1. `su` 
+   - Switch User command
+   - Changes current user to root user
+   - Requires root password
 
-====== Password ======
-sudo visudo -f /etc/sudoers.d/newrule
-		Defaults		passwd_tries=3
-		Defaults		badpass_message="Bad password, please try again :("
-		Defaults		logfile="/var/log/sudo/logs"
-		Defaults		log_input,log_output
-		Defaults		iolog_dir="/var/log/sudo"
-		Defaults		requiretty
-		Defaults		secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+2. `apt`
+   - Advanced Package Tool
+   - Package management system
+   - Common uses:
+     * `apt install` - Installs new packages
+     * `apt update` - Updates package list
+     * `apt upgrade` - Upgrades installed packages
 
+3. `adduser username sudo`
+   - Adds specified user to sudo group
+   - Grants administrative privileges
 
-====== SSH =======
-sudo apt install openssh-server
-sudo vim /etc/ssh/sshd_config
-		#Port 22                            ->  #Port 4242
-		#PermitRootLogin prohibit-password  ->  #PermitRootLogin no
-reboot
-sudo service ssh status
+4. `reboot`
+   - Restarts the system
+   - Implements all changes that require restart
 
+# Sudo Configuration
+5. `visudo`
+   - Safe editor for sudoers file
+   - Syntax: `sudo visudo -f /path/to/file`
+   - Checks for syntax errors before saving
 
-====== ufw =======
-sudo apt install ufw
-sudo ufw enable
-sudo ufw allow 4242
-sudo ufw status
-		IMPORTANT: TO BE ABLE TO ESTABLISH AN SSH CONNECTION, WE NEED TO DO PORT FORWARDING THROUGH VM
-			-Right-click on the virtual server we installed in the VM interface, go to settings, then network section, and click on the port forwarding section under the advanced menu
-			-On the right side of the new window, there's a green new connection rule button, let's click it once. Then
-			-NAME: SSH
-			-PROTOCOL: TCP
-			-HOST IP: 127.0.0.1
-			-HOST PORT: 4242
-			-GUEST IP: 10.0.2.15
-			-GUEST PORT: 4242
-			You can edit it like this and click OK below.
-ss -tunlp		// check
+6. `passwd`
+   - Changes user password
+   - Usage: `sudo passwd username`
 
+# SSH Configuration
+7. `ssh`
+   - Secure Shell protocol
+   - Used for secure remote system administration
+   - Default port is 22 (changed to 4242 in this project)
 
-====== Login =======
-sudo vim /etc/login.defs
-		PASS_MAX_DAYS   99999 --> PASS_MAX_DAYS   30
-		PASS_MIN_DAYS   0 --> PASS_MIN_DAYS   2
-		PASS_WARN_AGE   7
-sudo apt install libpam-pwquality
-sudo vim /etc/pam.d/common-password
-		retry=3
-		minlen=10                   // Minimum length 10
-		ucredit=-1 dcredit=-1       // Must contain at least one uppercase and one numeric character
-		maxrepeat=3                 // Maximum 3 consecutive characters can be used
-		reject_username             // Must not contain the username
-		difok=7                     // Requirement of 7 different characters not contained in the old password
-		enforce_for_root            // We made the rules valid for root as well
-		password        requisite                       pam_pwquality.so retry=3 minlen=10 ucredit=-1 dcredit=-1 maxrepeat=3 reject_username difok=7 enforce_for_root
+8. `service ssh status`
+   - Shows current status of SSH service
+   - Displays if service is running, stopped, or failed
 
-	---- Test ----
-	sudo addgroup user42			--> We created a new group named "user42".
-	sudo adduser username user42	--> We added the specified user to the user42 group.
-	sudo passwd user_name			--> Let's change our passwords.
+# Firewall (UFW) Commands
+9. `ufw`
+   - Uncomplicated Firewall
+   - Common commands:
+     * `ufw enable` - Activates firewall
+     * `ufw allow port` - Allows traffic on specified port
+     * `ufw status` - Shows current firewall rules
 
+# System Information Commands
+10. `who`
+    - Shows who is logged in
+    - Displays user login time and terminal
 
-====== Info =======
-sudo crontab -u root -e
-		*/10 * * * * sh /usr/bin/bashscript/
-cd /usr/bin/
-mkdir bashscript
-cd bashscript
-sudo vim monitoring.sh
-		# use the code in /born2beroot/monitoring.sh
-	
+11. `lsblk`
+    - Lists block devices
+    - Shows disk partitions and their sizes
+
+12. `dpkg -l`
+    - Lists all installed packages
+    - Used to check for specific package installations
+
+# Group Management
+13. `addgroup`
+    - Creates a new group
+    - Usage: `sudo addgroup groupname`
+
+14. `getent group`
+    - Shows group information
+    - Lists all members of specified group
+
+# Password Policy Commands
+15. `chage`
+    - Changes user password expiry information
+    - Can set password age and expiration dates
+
+# Monitoring Commands
+16. `top` or `htop`
+    - Shows system processes
+    - Displays CPU and memory usage
+
+17. `free`
+    - Shows memory usage
+    - Displays free and used memory
+
+# Bonus Section Commands
+18. `lighttpd`
+    - Lightweight web server
+    - Alternative to Apache/Nginx
+
+19. `mariadb`
+    - Database management system
+    - Fork of MySQL
+
+20. `wget`
+    - Downloads files from web
+    - Supports HTTP, HTTPS, FTP protocols
+
+21. `tar`
+    - Archive manipulation tool
+    - Common options:
+     * `-x`: Extract
+     * `-z`: Gunzip
+     * `-v`: Verbose
+     * `-f`: File
+
+22. `vsftpd`
+    - Very Secure FTP Daemon
+    - FTP server implementation
+
+# File Permission Commands
+23. `chmod`
+    - Changes file permissions
+    - Usage: `chmod [options] mode file`
+
+24. `chown`
+    - Changes file owner and group
+    - Usage: `chown user:group file`
+
+# Cron Jobs
+25. `crontab`
+    - Schedules tasks to run periodically
+    - Usage: `crontab -e` to edit
+    - Format: `minute hour day month weekday command`
+
