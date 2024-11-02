@@ -98,8 +98,12 @@ sudo systemctl restart vsftpd		# Restart FTP server
 	echo "Hello FTP" > test.txt
 	
 	# In FTP client:
+	ftp localhost
+	
+	cd ~
 	put test.txt    # Upload file
 	get test.txt    # Download file
+	bye
 
 
 # ====== Stress ======
