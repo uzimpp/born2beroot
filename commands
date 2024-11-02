@@ -124,3 +124,65 @@
     - Usage: `crontab -e` to edit
     - Format: `minute hour day month weekday command`
 
+# Monitoring Script Commands
+
+27. System Information Commands:
+    - `uname -a`
+        - Shows system and kernel information
+        - -a flag displays all information
+        - Output includes: kernel name, hostname, kernel version, OS
+
+28. CPU Commands:
+    - `cat /proc/cpuinfo | grep "physical id" | wc -l`
+        - Reads CPU info file
+        - Filters for physical CPU IDs
+        - Counts lines to get number of physical CPUs
+    - `cat /proc/cpuinfo | grep processor | wc -l`
+        - Similar to above but counts virtual processors
+        - Each processor line represents a virtual CPU
+
+29. Memory Commands:
+    - `free -m | grep Mem | awk '{print $3}'`
+        - free -m: Shows memory in megabytes
+        - grep Mem: Gets memory line
+        - awk '{print $3}': Shows used memory (3rd column)
+    - `free -m | grep Mem | awk '{print $2}'`
+        - Similar but prints total memory (2nd column)
+
+30. Disk Commands:
+    - `df -h | grep /dev/ | grep -v /boot | awk '{sum += $3} END {print sum}'`
+        - df -h: Disk usage in human readable format
+        - grep /dev/: Only real devices
+        - grep -v /boot: Excludes boot partition
+        - awk sum: Adds up used space
+    - Similar command with $2 for total space
+
+31. System Load Commands:
+    - `top -bn1 | grep '^%Cpu' | awk '{print 100-$8}'`
+        - top -bn1: Single snapshot of processes
+        - grep '^%Cpu': Gets CPU usage line
+        - Calculates usage from idle percentage
+
+32. Boot and LVM Commands:
+    - `who -b | awk '{print $3 " " $4}'`
+        - Shows last boot time
+        - Prints date and time columns
+    - `lsblk | grep "lvm" | wc -l`
+        - Lists block devices
+        - Counts LVM volumes
+
+33. Network Commands:
+    - `ss -s | grep TCP | awk '{print $4}'`
+        - Shows socket statistics
+        - Counts TCP connections
+    - `hostname -I | awk '{print $1}'`
+        - Shows IP address
+    - `ip link show | grep "link/ether" | awk '{print $2}'`
+        - Shows MAC address
+
+34. User and Sudo Commands:
+    - `users | wc -w`
+        - Lists and counts current users
+    - `journalctl _COMM=sudo | grep COMMAND | wc -l`
+        - Checks sudo logs
+        - Counts sudo commands used
