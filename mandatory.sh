@@ -127,5 +127,5 @@ sudo vim monitoring.sh
 >> use the code in /born2beroot/monitoring.sh
 
 # ====== signature.txt ======
-cd /sgoinfre/born2beroot
+cd sgoinfre/born2beroot
 sha1sum born2beroot.vdi
