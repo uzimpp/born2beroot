@@ -4,6 +4,9 @@ su
 apt install sudo
 sudo apt update
 adduser <user_name> sudo
+# adduser will ask for password and informations
+# while useradd will not
+# both can be used for achieving the same result
 hostname
 sudo hostnamectl set-hostname <new_hostname>
 hostnamectl status
@@ -14,6 +17,7 @@ sudo apt install vim
 	timedatectl
 	timedatectl list-timezones
 	timedatectl set-timezone "bla bla bla"
+sudo aa-status
 
 # ====== Password ======
 # In /etc/sudoers
@@ -35,6 +39,8 @@ Defaults		requiretty
 	# Try to sudo from your account
 	# You should check for the error message when wrong password is typed
 	sudo
+	sudo echo "                                This is the text                               "
+	sudo cat /var/log/sudo/sudo.logs
 
 sudo vim /etc/login.defs
 >>	PASS_MAX_DAYS   99999		--> PASS_MAX_DAYS   30
@@ -52,10 +58,11 @@ sudo vim /etc/security/pwquality.conf
 >>	retry=3
 	minlen=10					# Minimum length 10
 	ucredit=-1					# Must contain at least one uppercase
+	lcredit=-1					# Must contain at least one lowercase
 	dcredit=-1					# Must contain at least one numeric character
 	maxrepeat=3					# Maximum 3 consecutive characters can be used
-	reject_username=1			# Must not contain the username
-	enforce_for_root=1			# We made the rules valid for root as well
+	usercheck=1					# Must not contain the username
+	enforce_for_root			# We made the rules valid for root as well
 
 sudo vim /etc/pam.d/common-password
 >>	password        requisite                       pam_pwquality.so difok=7
@@ -83,6 +90,10 @@ sudo ufw status
 	# -HOST PORT: // This is lock try to user other aviable ports such as 2424
 	# -GUEST PORT: 4242
 	# You can edit it like this and click OK below.
+	# ---- Test ----
+	sudo ufw allow 1234
+	sudo ufw deny 1234
+	sudo ufw delete allow 1234
 ss -tunlp
 
 
@@ -116,4 +127,5 @@ sudo vim monitoring.sh
 >> use the code in /born2beroot/monitoring.sh
 
 # ====== signature.txt ======
-?????
+cd /sgoinfre/born2beroot
+sha1sum born2beroot.vdi

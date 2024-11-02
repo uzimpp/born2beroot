@@ -23,11 +23,12 @@ sudo mysql_secure_installation	# To configure default and insecure settings
 # ====== Database Setup ======
 sudo mariadb						# Enter MariaDB console
 	CREATE DATABASE wordpress_db;	# Create a new database
-	GRANT ALL ON wordpress_db.* TO 'wp_user'@'localhost' IDENTIFIED BY 'password123' WITH GRANT OPTION;	# Give permissions to new user
+	CREATE USER 'wkullana'@'localhost' IDENTIFIED BY 'password1234';
+	GRANT ALL PRIVILEGES ON wordpress_db.* TO 'wkullana'@'localhost';	# Give permissions to new user
 	FLUSH PRIVILEGES;				# Apply changes
 	exit
 	# ---- Test ----
-	mariadb -u wp_user -p		# Try connecting with new user
+	mariadb -u wkullana -p		# Try connecting with new user
 	SHOW DATABASES;				# Should see wordpress_db and information_schema
 	exit
 
@@ -47,14 +48,17 @@ sudo cp wp-config-sample.php wp-config.php	# Create configuration file from samp
 sudo nano wp-config.php				# Edit WordPress configuration
 	# Edit these lines:
 	define('DB_NAME', 'wordpress_db');		# Database name we created
-	define('DB_USER', 'wp_user');			# Database user we created
-	define('DB_PASSWORD', 'password123');	# Database password we set
+	define('DB_USER', 'wkullana');			# Database user we created
+	define('DB_PASSWORD', 'password1234');	# Database password we set
 
 # ====== Configure lighttpd ======
 sudo lighty-enable-mod fastcgi		# Enable FastCGI module
 sudo lighty-enable-mod fastcgi-php	# Enable PHP through FastCGI
 sudo service lighttpd force-reload	# Restart web server to apply changes
 
+# run this command and look for enp6s0
+ip a
+>> http://<ip>:8080 #http://10.12.13.3:8080
 
 # ====== FTP Server Setup ======
 sudo apt install vsftpd				# Install FTP server
@@ -88,3 +92,17 @@ sudo systemctl restart vsftpd		# Restart FTP server
 	# Port: 21
 	# Username: Your username
 	# Password: Your password
+	
+	# Create test file
+	cd ~
+	echo "Hello FTP" > test.txt
+	
+	# In FTP client:
+	put test.txt    # Upload file
+	get test.txt    # Download file
+
+
+# ====== Stress ======
+sudo apt install stress
+uptime
+sudo stress --cpu 8 --timeout 20

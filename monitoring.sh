@@ -24,7 +24,7 @@
 	lvmu=$(if [ $lvmt -eq 0 ]; then echo No; else echo Yes; fi)
 
 # Connections TCP
-	ctcp=$(ss -ta | grep ESTAB | wc -l)
+	ctcp=$(cat /proc/net/sockstat{,6} | awk '$1 == "TCP:" {print $3}')
 
 # User log
 	ulog=$(users | wc -w)

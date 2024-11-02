@@ -1,0 +1,170 @@
+1. VIRTUAL MACHINE
+- What is it?
+  * Software that simulates dedicated hardware to create virtual computer
+  * Allows running multiple OS on single physical machine
+  * Uses host's CPU, RAM, storage but in isolated environment
+- Purpose:
+  * Testing and development environments
+  * Server consolidation (multiple servers on one machine)
+  * Save physical space
+  * Maintenance
+  * Cost effective resource usage
+  * Easy backup and recovery
+
+2. WHY DEBIAN?
+- Reasons for choice:
+  * Very stable and reliable (thoroughly tested updates)
+  * Excellent security track record
+  * Simple and efficient package management (apt)
+  * Huge software repository
+  * Great documentation and community support
+  * Lower resource requirements
+  * Free and open source
+
+3. DEBIAN VS ROCKY
+- Key differences:
+  * Package Management:
+    - Debian: APT (.deb packages)
+    - Rocky: DNF/YUM (.rpm packages)
+  * Release Cycle:
+    - Debian: Regular releases, stable branch
+    - Rocky: Long term support (10 years)
+  * Default Security:
+    - Debian: AppArmor
+    - Rocky: SELinux
+  * Target Usage:
+    - Debian: General purpose, servers
+    - Rocky: Enterprise servers
+
+4. PACKAGE MANAGERS
+- apt vs aptitude:
+  * apt:
+    - Defualt linux package tool
+    - Only does exactly what you tell it
+    - Manual dependency handling
+    - No memory of package installation reason
+    - More straightforward, but less automated
+  
+  * aptitude:
+    - More sophisticated package manager
+    - Remembers which packages were:
+      > Explicitly installed by user
+      > Automatically installed as dependencies
+    - Will automatically remove unnecessary dependencies
+    - Smarter dependency resolution
+    - Both CLI and interactive interface
+    - Better for system maintenance
+
+5. SECURITY (AppArmor)
+- What is it:
+  * Mandatory Access Control (MAC) system
+  * Restricts programs' capabilities
+  * Profiles define what resources programs can access
+  * Runs by default on Debian
+- Benefits:
+  * Additional security layer
+  * Protects system resources
+  * Reduces impact of security breaches
+
+6. PASSWORD POLICY
+- Importance:
+  * First line of defense against unauthorized access
+  * Prevents dictionary attacks
+  * Enforces security best practices
+- Implementation:
+  * Password complexity rules
+  * Regular password changes
+  * Password history
+  * Login attempt limits
+- Trade-offs:
+  * Security vs usability
+  * Management overhead
+
+7. SUDO AND UFW
+- sudo:
+  * Controlled administrative access
+  * Detailed logging of commands
+  * Fine-grained permission control
+  * Security through limited exposure
+- UFW:
+  * Simple firewall configuration
+  * Port access control
+  * Network security management
+  * Protection against unauthorized access
+
+8. SSH
+- Features:
+  * Encrypted communication channel
+  * Secure remote system access
+  * File transfer capabilities
+  * Port forwarding
+- Security:
+  * Key-based authentication
+  * Custom port (4242) reduces automated attacks
+  * No root login for better security
+  * Encrypted data transfer
+
+9. MONITORING SCRIPT
+- Components:
+  * Architecture type
+  * CPU physical/virtual
+  * Memory usage
+  * Disk usage
+  * CPU load
+  * Last boot
+  * LVM usage
+  * TCP connections
+  * User log
+  * Network IP
+  * Sudo commands
+- Cron:
+  * Task scheduler
+  * Runs script every 10 minutes
+  * Broadcasts using wall
+  * Configurable timing
+  
+# ====== FTP Server (File Transfer Protocol) ======
+
+1. WHAT IS FTP?
+- Basic Definition:
+  * Protocol for transferring files between computers
+  * Client-server architecture
+  * Standard network protocol
+  * Uses port 21 by default
+
+2. PURPOSE
+- Main Uses:
+  * Upload files to server
+  * Download files from server
+  * Manage remote files
+  * Share files between systems
+
+3. HOW IT WORKS
+- Components:
+  * FTP Server (vsftpd in our case)
+  * FTP Client
+  * Control Connection (commands)
+  * Data Connection (file transfer)
+
+4. ADVANTAGES
+- Benefits:
+  * Simple to use
+  * Fast file transfers
+  * Supports large files
+  * User authentication
+  * Directory management
+
+5. SECURITY CONSIDERATIONS
+- Important Points:
+  * Password protection
+  * User permissions
+  * Firewall rules (port 21)
+  * File access control
+  * Encrypted transfers (FTPS)
+
+6. VSFTPD (Very Secure FTP Daemon)
+- Features:
+  * Default FTP server for Debian
+  * Security focused
+  * Easy to configure
+  * Good performance
