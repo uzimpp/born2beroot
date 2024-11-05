@@ -95,14 +95,18 @@ sudo systemctl restart vsftpd		# Restart FTP server
 	
 	# Create test file
 	cd ~
-	echo "Hello FTP" > test.txt
-	
+	mkdir ~/ftp
+	chmod 755 ~/ftp
+	echo "Hello FTP" > ~/ftp/test.txt
+	sudo systemctl restart vsftpd
+	sudo systemctl status vsftpd
 	# In FTP client:
 	ftp localhost
 	
-	cd ~
-	put test.txt    # Upload file
-	get test.txt    # Download file
+	ls              # List files
+	cd ../          # Change to ftp directory # cd ftp
+	put test.txt    # Upload a file
+	get test.txt    # Download a file
 	bye
 
 
